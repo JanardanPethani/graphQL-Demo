@@ -1,0 +1,12 @@
+{
+  "name": "graphQL-Demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/JanardanPethani/graphQL-Demo",
+  "author": "JanardanPethani <jpethani@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.2",
+    "graphql": "^16.3.0"
+  }
+}
