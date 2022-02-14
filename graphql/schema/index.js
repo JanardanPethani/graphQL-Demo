@@ -1,6 +1,6 @@
 const { buildSchema } = require("graphql");
 
-module.exports = buildSchema(`
+module.exports = buildSchema(`#graphql
 type Event {
     _id: ID!
     title: String!
@@ -22,9 +22,10 @@ input EventInput {
     description: String!
     price: Float!
     date: String!
+    createdBy: ID!
 }
 
- input UserInput {
+input UserInput {
     email: String!
     password: String!
 }
