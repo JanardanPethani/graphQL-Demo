@@ -4,7 +4,11 @@ const Booking = require("../../models/booking");
 const { singleEvent, transformBookingObj } = require("./utils");
 
 module.exports = {
-  bookings: async () => {
+  bookings: async (req) => {
+    if (!req.isAuth) {
+      // isAuth is coming from middleware
+      throw new Error("Unauthenticated");
+    }
     try {
       const bookings = await Booking.find();
       return bookings.map((booking) => {
@@ -15,21 +19,20 @@ module.exports = {
     }
   },
 
-  bookEvent: async (args) => {
+  bookEvent: async (args, req) => {
+    if (!req.isAuth) {
+      // isAuth is coming from middleware
+      throw new Error("Unauthenticated");
+    }
     const booking = new Booking({
-      user: args.bookingInput.userId,
+      user: req.userId,
       event: args.bookingInput.eventId,
     });
     try {
-      const existingUser = await User.findOne({
-        _id: args.bookingInput.userId,
-      });
       const existingEvent = await Event.findOne({
         _id: args.bookingInput.eventId,
       });
-      if (!existingUser) {
-        throw "No user found";
-      }
+
       if (!existingEvent) {
         throw "No event found";
       }
@@ -40,7 +43,11 @@ module.exports = {
     }
   },
 
-  cancelBooking: async (args) => {
+  cancelBooking: async (args, req) => {
+    if (!req.isAuth) {
+      // isAuth is coming from middleware
+      throw new Error("Unauthenticated");
+    }
     try {
       const deletedBooking = await Booking.findOneAndDelete({
         _id: args.bookingId,

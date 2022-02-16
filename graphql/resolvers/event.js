@@ -15,17 +15,21 @@ module.exports = {
     }
   },
 
-  createEvent: async (args) => {
+  createEvent: async (args, req) => {
+    if (!req.isAuth) {
+      // isAuth is coming from middleware
+      throw new Error("Unauthenticated");
+    }
     const event = new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,
       price: +args.eventInput.price,
       date: new Date(args.eventInput.date),
-      createdBy: args.eventInput.createdBy,
+      createdBy: req.userId,
     });
-    let createdEvent;
     try {
-      const createdBy = await User.findById(args.eventInput.createdBy);
+      let createdEvent;
+      const createdBy = await User.findById(req.userId);
       if (!createdBy) {
         throw new Error("User not found.");
       }
