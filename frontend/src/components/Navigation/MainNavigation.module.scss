@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&display=swap");
+
+.Header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: whitesmoke;
+  font-family: "Cinzel";
+}
+
+.Logo {
+  display: flex;
+  align-items: center;
+  max-width: fit-content;
+  margin-left: 10px;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.Nav {
+  margin: 0px 20px;
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  li,
+  a {
+    display: inline-block;
+  }
+  li {
+    list-style: none;
+    padding: 10px;
+  }
+  a {
+    text-decoration: none;
+    color: darkgray;
+  }
+  a:active,
+  a:hover {
+    color: black;
+  }
+  .Active {
+    color: black;
+  }
+}
