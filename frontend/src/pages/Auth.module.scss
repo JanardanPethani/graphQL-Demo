@@ -1,0 +1,50 @@
+.Form {
+  width: 50%;
+  padding: 2rem;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid gray;
+  border-radius: 0.2rem;
+  box-shadow: 0px 0.2rem 1rem lightgray;
+}
+
+.FormControl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  width: 100%;
+
+  label {
+    flex-basis: 30%;
+    max-width: 10rem;
+  }
+  input {
+    flex-basis: 70%;
+    height: 2rem;
+    max-width: 15rem;
+  }
+}
+
+.FormActions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 2rem;
+  width: 100%;
+  button {
+    width: 7rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    border: none;
+    font: inherit;
+  }
+  button:hover {
+    box-shadow: 0px 1px 3px rgba(128, 128, 128, 0.5);
+    cursor: pointer;
+  }
+}
