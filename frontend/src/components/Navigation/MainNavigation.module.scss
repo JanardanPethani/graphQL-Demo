@@ -54,4 +54,17 @@
   .Active {
     color: black;
   }
+
+  .LogoutBtn {
+    height: 100%;
+    width: 100%;
+    background: none;
+    border: none;
+    font: inherit;
+    color: darkgray;
+  }
+  .LogoutBtn:hover {
+    cursor: pointer;
+    color: black;
+  }
 }
