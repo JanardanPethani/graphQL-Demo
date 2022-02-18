@@ -35,6 +35,11 @@ function App() {
             {!token && (
               <Fragment>
                 <Route path="/" exact element={<Navigate to="/auth" />} />
+                <Route
+                  path="/bookings"
+                  exact
+                  element={<Navigate to="/auth" />}
+                />
                 <Route path="/auth" element={<AuthPage />} />
               </Fragment>
             )}

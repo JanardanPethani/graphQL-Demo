@@ -12,6 +12,16 @@ function MainNavigation() {
       <div className={classes.Logo}>GrpahQl Event Demo</div>
       <nav className={classes.Nav}>
         <ul>
+          <li>
+            <NavLink
+              to="/events"
+              className={({ isActive }) =>
+                isActive ? classes.Active : undefined
+              }
+            >
+              Events
+            </NavLink>
+          </li>
           {!authContext.token && (
             <li>
               <NavLink
@@ -27,16 +37,6 @@ function MainNavigation() {
           {authContext.token && (
             <Fragment>
               <li>
-                <button
-                  className={classes.LogoutBtn}
-                  onClick={() => {
-                    authContext.logout();
-                  }}
-                >
-                  Logout
-                </button>
-              </li>
-              <li>
                 <NavLink
                   to="/bookings"
                   className={({ isActive }) =>
@@ -46,18 +46,16 @@ function MainNavigation() {
                   Bookings
                 </NavLink>
               </li>
+              <li>
+                <button
+                  className={classes.LogoutBtn}
+                  onClick={authContext.logout}
+                >
+                  Logout
+                </button>
+              </li>
             </Fragment>
           )}
-          <li>
-            <NavLink
-              to="/events"
-              className={({ isActive }) =>
-                isActive ? classes.Active : undefined
-              }
-            >
-              Events
-            </NavLink>
-          </li>
         </ul>
       </nav>
     </header>
