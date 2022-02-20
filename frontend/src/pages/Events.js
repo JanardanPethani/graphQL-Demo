@@ -3,6 +3,8 @@ import Modal from "../components/Modal/Modal";
 import classes from "./Events.module.scss";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import AuthContext from "../context/auth-context";
+import Spinner from "../components/SVG/Spinner";
+import EventList from "../components/EventList/EventList";
 
 // Create event
 const CREATE_EVENT = gql`
@@ -43,6 +45,7 @@ const LOAD_EVENTS = gql`
       price
       date
       createdBy {
+        _id
         email
       }
     }
@@ -55,12 +58,8 @@ function Events() {
   const price = useRef(null);
   const date = useRef(null);
   const [isModalClosed, setIsClosed] = useState(true);
-  const [createEvent, { data, loading, error }] = useMutation(CREATE_EVENT);
-  const {
-    data: eventsData,
-    loading: eventsLoading,
-    error: eventsErr,
-  } = useQuery(LOAD_EVENTS);
+  const [createEvent, { data }] = useMutation(CREATE_EVENT);
+  const { data: eventsData, loading } = useQuery(LOAD_EVENTS);
 
   const authContext = useContext(AuthContext);
 
@@ -90,32 +89,34 @@ function Events() {
     setIsClosed(true);
   };
 
+  if (loading) return <Spinner />;
+
   return (
     <Fragment>
       {!isModalClosed && (
         <Modal
-          title="Add Event"
+          title='Add Event'
           confirmHandler={confirmHandler}
           closeHandler={closeHandler}
         >
           <form className={classes.Form} onSubmit={confirmHandler}>
             <div className={classes.FormControl}>
-              <label htmlFor="title">Title</label>
-              <input type="text" id="title" ref={title} />
+              <label htmlFor='title'>Title</label>
+              <input type='text' id='title' ref={title} />
             </div>
             <div className={classes.FormControl}>
-              <label htmlFor="price">Price</label>
-              <input type="number" id="price" ref={price} />
+              <label htmlFor='price'>Price</label>
+              <input type='number' id='price' ref={price} />
             </div>
             <div className={classes.FormControl}>
-              <label htmlFor="date">Date</label>
-              <input type="datetime-local" id="date" ref={date} />
+              <label htmlFor='date'>Date</label>
+              <input type='datetime-local' id='date' ref={date} />
             </div>
             <div className={classes.FormControl}>
-              <label htmlFor="description">Description</label>
+              <label htmlFor='description'>Description</label>
               <textarea
-                type="area"
-                id="description"
+                type='area'
+                id='description'
                 rows={4}
                 ref={description}
               />
@@ -125,47 +126,14 @@ function Events() {
       )}
       {authContext.token && (
         <div className={classes.FormActions}>
-          <button type="button" onClick={creatEventHandler}>
+          <button type='button' onClick={creatEventHandler}>
             Create an event
           </button>
         </div>
       )}
 
       {eventsData && (
-        <div className={classes.EventsSection}>
-          {eventsData.events.map((eventData, index) => {
-            return (
-              <ul className={classes.Event} key={index}>
-                <li>
-                  <div className={classes.EventTag}>Title:</div>
-                  <div className={classes.EventTagData}> {eventData.title}</div>
-                </li>
-                <li>
-                  <div className={classes.EventTag}>Description:</div>
-                  <div className={classes.EventTagData}>
-                    {eventData.description}
-                  </div>
-                </li>
-                <li>
-                  <div className={classes.EventTag}>Price:</div>
-                  <div className={classes.EventTagData}>{eventData.price}</div>
-                </li>
-                <li>
-                  <div className={classes.EventTag}>Date: </div>
-                  <div className={classes.EventTagData}>
-                    {new Date(eventData.date).toLocaleString()}
-                  </div>
-                </li>
-                <li>
-                  <div className={classes.EventTag}>By:</div>
-                  <div className={classes.EventTagData}>
-                    {eventData.createdBy.email}
-                  </div>
-                </li>
-              </ul>
-            );
-          })}
-        </div>
+        <EventList eventsData={eventsData} userId={authContext.userId} />
       )}
     </Fragment>
   );

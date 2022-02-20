@@ -1,0 +1,20 @@
+.EventItem {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  list-style: none;
+  gap: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 5px lightgray;
+  .EventItemData {
+    display: flex;
+    gap: 20px;
+    .EventTag {
+      font-weight: 700;
+      width: 30%;
+    }
+    .EventTagData {
+      width: 70%;
+    }
+  }
+}
