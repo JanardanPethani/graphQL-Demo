@@ -10,7 +10,7 @@ function Modal({ title, closeHandler, confirmHandler, children }) {
         <div className={classes.Content}>{children}</div>
         <div className={classes.Footer}>
           <button onClick={closeHandler}>Close</button>
-          <button onClick={confirmHandler}>Confirm</button>
+          {confirmHandler && <button onClick={confirmHandler}>Confirm</button>}
         </div>
       </div>
     </Fragment>

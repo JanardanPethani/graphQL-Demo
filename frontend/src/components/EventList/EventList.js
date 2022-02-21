@@ -8,12 +8,7 @@ function EventList({ eventsData, userId }) {
       <ul className={classes.Event}>
         {eventsData.events.map((eventData, index) => {
           return (
-            <Fragment>
-              <EventItem eventData={eventData} key={index} />
-              {userId === eventData.createdBy._id && (
-                <em>Your are the owner</em>
-              )}
-            </Fragment>
+            <EventItem eventData={eventData} key={index} userId={userId} />
           );
         })}
       </ul>

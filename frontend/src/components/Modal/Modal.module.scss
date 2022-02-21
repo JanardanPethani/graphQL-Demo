@@ -1,5 +1,6 @@
 .BackDrop {
   position: fixed;
+  z-index: 2;
   top: 0;
   left: 0;
   height: 100%;
@@ -9,6 +10,7 @@
 
 .Modal {
   position: fixed;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   top: 10rem;

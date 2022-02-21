@@ -1,14 +1,17 @@
 .EventItem {
+  position: relative;
   display: flex;
   flex-direction: column;
-  width: 100%;
   list-style: none;
   gap: 10px;
-  padding: 20px;
+  padding: 10px;
+  width: 400px;
   box-shadow: 0px 0px 5px lightgray;
+
   .EventItemData {
     display: flex;
     gap: 20px;
+    padding: 5px;
     .EventTag {
       font-weight: 700;
       width: 30%;
@@ -16,5 +19,44 @@
     .EventTagData {
       width: 70%;
     }
+  }
+
+  .DetailsBtn {
+    flex-grow: 1;
+    align-items: flex-end;
+  }
+
+  .DetailsBtn > button {
+    width: 100%;
+    border: none;
+    padding: 5px;
+
+    &:hover {
+      background: black;
+      color: white;
+      cursor: pointer;
+    }
+  }
+
+  .OwnerText {
+    color: gray;
+    bottom: -20px;
+    font-size: 10px;
+    line-height: 2;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+  }
+}
+
+.ModalItemData {
+  display: flex;
+  padding: 5px;
+
+  .EventTag {
+    font-weight: 700;
+    width: 30%;
+  }
+  .EventTagData {
+    width: 70%;
   }
 }

@@ -40,6 +40,7 @@ const CREATE_EVENT = gql`
 const LOAD_EVENTS = gql`
   query {
     events {
+      _id
       title
       description
       price
@@ -66,9 +67,11 @@ function Events() {
   const creatEventHandler = () => {
     setIsClosed(false);
   };
+
   const closeHandler = () => {
     setIsClosed(true);
   };
+
   const confirmHandler = () => {
     if (
       title.current.value &&
@@ -95,28 +98,28 @@ function Events() {
     <Fragment>
       {!isModalClosed && (
         <Modal
-          title='Add Event'
+          title="Add Event"
           confirmHandler={confirmHandler}
           closeHandler={closeHandler}
         >
           <form className={classes.Form} onSubmit={confirmHandler}>
             <div className={classes.FormControl}>
-              <label htmlFor='title'>Title</label>
-              <input type='text' id='title' ref={title} />
+              <label htmlFor="title">Title</label>
+              <input type="text" id="title" ref={title} />
             </div>
             <div className={classes.FormControl}>
-              <label htmlFor='price'>Price</label>
-              <input type='number' id='price' ref={price} />
+              <label htmlFor="price">Price</label>
+              <input type="number" id="price" ref={price} />
             </div>
             <div className={classes.FormControl}>
-              <label htmlFor='date'>Date</label>
-              <input type='datetime-local' id='date' ref={date} />
+              <label htmlFor="date">Date</label>
+              <input type="datetime-local" id="date" ref={date} />
             </div>
             <div className={classes.FormControl}>
-              <label htmlFor='description'>Description</label>
+              <label htmlFor="description">Description</label>
               <textarea
-                type='area'
-                id='description'
+                type="area"
+                id="description"
                 rows={4}
                 ref={description}
               />
@@ -126,7 +129,7 @@ function Events() {
       )}
       {authContext.token && (
         <div className={classes.FormActions}>
-          <button type='button' onClick={creatEventHandler}>
+          <button type="button" onClick={creatEventHandler}>
             Create an event
           </button>
         </div>
