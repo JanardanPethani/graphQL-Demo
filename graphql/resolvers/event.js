@@ -15,6 +15,38 @@ module.exports = {
     }
   },
 
+  userEvents: async (args, req) => {
+    if (!req.isAuth) {
+      // isAuth is coming from middleware
+      throw new Error("Unauthenticated");
+    }
+    try {
+      const events = await Event.find({ createdBy: req.userId });
+
+      return events.map((event) => {
+        return transformEventObj(event);
+      });
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  otherEvents: async (args, req) => {
+    if (!req.isAuth) {
+      // isAuth is coming from middleware
+      throw new Error("Unauthenticated");
+    }
+    try {
+      const events = await Event.find({ createdBy: { $nin: [req.userId] } });
+
+      return events.map((event) => {
+        return transformEventObj(event);
+      });
+    } catch (err) {
+      throw err;
+    }
+  },
+
   createEvent: async (args, req) => {
     if (!req.isAuth) {
       // isAuth is coming from middleware

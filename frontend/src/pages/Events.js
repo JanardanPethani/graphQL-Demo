@@ -53,14 +53,70 @@ const LOAD_EVENTS = gql`
   }
 `;
 
+// User specific event
+const LOAD_USER_EVENT = gql`
+  query {
+    userEvents {
+      _id
+      title
+      description
+      price
+      date
+      createdBy {
+        _id
+        email
+      }
+    }
+  }
+`;
+
+// User specific event
+const OTHER_USER_EVENT = gql`
+  query {
+    otherEvents {
+      _id
+      title
+      description
+      price
+      date
+      createdBy {
+        _id
+        email
+      }
+    }
+  }
+`;
+
+// Book an event
+const BOOK_EVENT = gql`
+  mutation bookEvent($eventId: ID!) {
+    bookEvent(eventId: $eventId) {
+      _id
+      event {
+        _id
+      }
+      user {
+        _id
+      }
+    }
+  }
+`;
+
 function Events() {
   const title = useRef(null);
   const description = useRef(null);
   const price = useRef(null);
   const date = useRef(null);
   const [isModalClosed, setIsClosed] = useState(true);
+
   const [createEvent, { data }] = useMutation(CREATE_EVENT);
+  const [bookEvent, { data: bookedEventData }] = useMutation(BOOK_EVENT);
+
   const { data: eventsData, loading } = useQuery(LOAD_EVENTS);
+  const { data: userEventsData, loading: userEventsLoading } =
+    useQuery(LOAD_USER_EVENT);
+  const { data: otherEventsData, loading: otherEventsLoading } =
+    useQuery(OTHER_USER_EVENT);
 
   const authContext = useContext(AuthContext);
 
@@ -92,7 +148,15 @@ function Events() {
     setIsClosed(true);
   };
 
-  if (loading) return <Spinner />;
+  const bookEventHandler = (eventId) => {
+    bookEvent({
+      variables: {
+        eventId,
+      },
+    });
+  };
+
+  if (loading || userEventsLoading || otherEventsLoading) return <Spinner />;
 
   return (
     <Fragment>
@@ -135,8 +199,30 @@ function Events() {
         </div>
       )}
 
-      {eventsData && (
-        <EventList eventsData={eventsData} userId={authContext.userId} />
+      {!userEventsData && !otherEventsData && eventsData && (
+        <EventList eventsData={eventsData.events} userId={authContext.userId} />
+      )}
+
+      {userEventsData && (
+        <div className={classes.EventsSec}>
+          <h4>Your events</h4>
+          <EventList
+            eventsData={userEventsData.userEvents}
+            userId={authContext.userId}
+          />
+        </div>
+      )}
+
+      {otherEventsData && (
+        <div className={classes.EventsSec}>
+          <h4>Other events</h4>
+          <EventList
+            eventsData={otherEventsData.otherEvents}
+            userId={authContext.userId}
+            bookEvent={bookEventHandler}
+            canBook
+          />
+        </div>
       )}
     </Fragment>
   );

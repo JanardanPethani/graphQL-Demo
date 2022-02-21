@@ -43,7 +43,7 @@ function MainNavigation() {
                     isActive ? classes.Active : undefined
                   }
                 >
-                  Bookings
+                  Your Bookings
                 </NavLink>
               </li>
               <li>

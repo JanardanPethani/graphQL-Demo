@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 import Modal from "../../Modal/Modal";
 import classes from "./EventItem.module.scss";
 
-function EventItem({ eventData, userId }) {
+function EventItem({ eventData, canBook, userId, bookEvent }) {
   const [isModalClosed, setIsClosed] = useState(true);
   const openDetails = () => {
     setIsClosed(false);
@@ -31,9 +31,6 @@ function EventItem({ eventData, userId }) {
         </Modal>
       )}
       <li className={classes.EventItem}>
-        {userId === eventData.createdBy._id && (
-          <div className={classes.OwnerText}>You are the owner</div>
-        )}
         <div className={classes.EventItemData}>
           <div className={classes.EventTag}>Title:</div>
           <div className={classes.EventTagData}>{eventData.title}</div>
@@ -46,6 +43,15 @@ function EventItem({ eventData, userId }) {
         </div>
         <div className={`${classes.EventItemData} ${classes.DetailsBtn}`}>
           <button onClick={openDetails}>More details</button>
+          {canBook && userId && (
+            <button
+              onClick={() => {
+                bookEvent(eventData._id);
+              }}
+            >
+              Book your seat
+            </button>
+          )}
         </div>
       </li>
     </Fragment>
