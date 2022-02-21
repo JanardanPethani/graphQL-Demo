@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { events } = require("./utils");
 
 module.exports = {
-  users: async (req) => {
+  users: async (args, req) => {
     if (!req.isAuth) {
       // isAuth is coming from middleware
       throw new Error("Unauthenticated");

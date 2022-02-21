@@ -1,16 +1,16 @@
 const Event = require("../../models/event");
-const User = require("../../models/user");
 const Booking = require("../../models/booking");
 const { singleEvent, transformBookingObj } = require("./utils");
 
 module.exports = {
-  bookings: async (req) => {
+  bookings: async (args, req) => {
     if (!req.isAuth) {
       // isAuth is coming from middleware
       throw new Error("Unauthenticated");
     }
     try {
       const bookings = await Booking.find();
+
       return bookings.map((booking) => {
         return transformBookingObj(booking);
       });
@@ -26,11 +26,19 @@ module.exports = {
     }
     const booking = new Booking({
       user: req.userId,
-      event: args.bookingInput.eventId,
+      event: args.eventId,
     });
     try {
+      const existingBooking = await Booking.findOne({
+        user: req.userId,
+        event: args.eventId,
+      });
+      if (existingBooking) {
+        throw "Already booked";
+      }
+
       const existingEvent = await Event.findOne({
-        _id: args.bookingInput.eventId,
+        _id: args.eventId,
       });
 
       if (!existingEvent) {
