@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import AuthContext from "./context/auth-context";
 
@@ -24,6 +24,7 @@ function App() {
     localStorage.removeItem("token");
     setToken(null);
     setUserId(null);
+    window.location.reload();
   };
 
   return (

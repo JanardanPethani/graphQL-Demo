@@ -1,4 +1,10 @@
-import React, { Fragment, useRef, useState, useContext } from "react";
+import React, {
+  Fragment,
+  useRef,
+  useState,
+  useContext,
+  useEffect,
+} from "react";
 import Modal from "../components/Modal/Modal";
 import classes from "./Events.module.scss";
 import { gql, useMutation, useQuery } from "@apollo/client";
@@ -110,9 +116,12 @@ function Events() {
   const [isModalClosed, setIsClosed] = useState(true);
 
   const [createEvent, { data }] = useMutation(CREATE_EVENT);
-  const [bookEvent, { data: bookedEventData }] = useMutation(BOOK_EVENT);
+  const [
+    bookEvent,
+    { loading: bookLoading, data: bookedData, errors: bookError },
+  ] = useMutation(BOOK_EVENT);
 
-  const { data: eventsData, loading } = useQuery(LOAD_EVENTS);
+  const { data: eventsData, loading, refetch } = useQuery(LOAD_EVENTS);
   const { data: userEventsData, loading: userEventsLoading } =
     useQuery(LOAD_USER_EVENT);
   const { data: otherEventsData, loading: otherEventsLoading } =
@@ -153,7 +162,15 @@ function Events() {
       variables: {
         eventId,
       },
-    });
+    })
+      .then((res) => {
+        if (res.data?.bookEvent) {
+          alert("Event Booked");
+        }
+      })
+      .catch((err) => {
+        alert("Already Booked");
+      });
   };
 
   if (loading || userEventsLoading || otherEventsLoading) return <Spinner />;

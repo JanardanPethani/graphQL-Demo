@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Spinner from "../components/SVG/Spinner";
 import classes from "./Bookings.module.scss";
@@ -41,8 +41,14 @@ const CANCEL_BOOKING = gql`
 
 function Bookings() {
   const { data: bookingsData, loading, refetch } = useQuery(LOAD_BOOKINGS);
-  const [cancelBooking, { data: canceledBookingData }] =
-    useMutation(CANCEL_BOOKING);
+  const [
+    cancelBooking,
+    { data: canceledBookingData, loading: cancelBookingLoading },
+  ] = useMutation(CANCEL_BOOKING);
+
+  useEffect(() => {
+    refetch();
+  }, [loading, cancelBookingLoading]);
 
   const cancelBookingHandler = (bookingId) => {
     cancelBooking({
@@ -50,7 +56,6 @@ function Bookings() {
         bookingId,
       },
     });
-    refetch();
   };
 
   if (loading) return <Spinner />;
