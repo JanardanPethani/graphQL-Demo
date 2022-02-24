@@ -7,7 +7,7 @@ import classes from "./Auth.module.scss";
 
 // Register user in db
 const CREATE_USER = gql`
-  mutation createUser($email: String!, $password: String!) {
+  mutation CreateUser($email: String!, $password: String!) {
     createUser(userInput: { email: $email, password: $password }) {
       _id
       email
@@ -17,7 +17,7 @@ const CREATE_USER = gql`
 
 // Login user
 const LOGIN_USER = gql`
-  query login($email: String!, $password: String!) {
+  query Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       userId
       token

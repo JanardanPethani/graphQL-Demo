@@ -14,7 +14,7 @@ import EventList from "../components/EventList/EventList";
 
 // Create event
 const CREATE_EVENT = gql`
-  mutation createEvent(
+  mutation CreateEvent(
     $title: String!
     $description: String!
     $price: Float!
@@ -95,7 +95,7 @@ const OTHER_USER_EVENT = gql`
 
 // Book an event
 const BOOK_EVENT = gql`
-  mutation bookEvent($eventId: ID!) {
+  mutation BookEvent($eventId: ID!) {
     bookEvent(eventId: $eventId) {
       _id
       event {

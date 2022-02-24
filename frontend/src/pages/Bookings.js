@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import Spinner from "../components/SVG/Spinner";
 import classes from "./Bookings.module.scss";
 import BookingItem from "../components/BookingList/BookingItem";
+import BookingsChart from "../components/BookingsChart/BookingsChart";
 
 // Load event
 const LOAD_BOOKINGS = gql`
@@ -25,7 +26,7 @@ const LOAD_BOOKINGS = gql`
 
 // Load event
 const CANCEL_BOOKING = gql`
-  mutation cancelBooking($bookingId: ID!) {
+  mutation CancelBooking($bookingId: ID!) {
     cancelBooking(bookingId: $bookingId) {
       _id
       title
@@ -62,16 +63,26 @@ function Bookings() {
 
   return (
     <div className={classes.BookingsList}>
-      {bookingsData && bookingsData.bookings && bookingsData.bookings.length > 0
-        ? bookingsData.bookings.map((booking) => {
-            return (
-              <BookingItem
-                bookingData={booking}
-                cancelBooking={cancelBookingHandler}
-              />
-            );
-          })
-        : "No Bookings"}
+      {bookingsData &&
+      bookingsData.bookings &&
+      bookingsData.bookings.length > 0 ? (
+        <div className={classes.BookingPage}>
+          <div>
+            {bookingsData.bookings.map((booking) => {
+              return (
+                <BookingItem
+                  key={booking._id}
+                  bookingData={booking}
+                  cancelBooking={cancelBookingHandler}
+                />
+              );
+            })}
+          </div>
+          <BookingsChart bookings={bookingsData.bookings} />
+        </div>
+      ) : (
+        "No Bookings"
+      )}
     </div>
   );
 }
