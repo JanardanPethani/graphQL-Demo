@@ -48,6 +48,12 @@ const user = async (userId) => {
 const events = async (eventIds) => {
   try {
     const events = await Event.find({ _id: { $in: eventIds } });
+    // We have to sort output to match with dataloader everytime
+    events.sort((a, b) => {
+      return (
+        eventIds.indexOf(a._id.toString()) - eventIds.indexOf(b._id.toString())
+      );
+    });
     return events.map((event) => {
       return transformEventObj(event);
     });
