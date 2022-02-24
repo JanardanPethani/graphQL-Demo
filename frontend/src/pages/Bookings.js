@@ -62,15 +62,16 @@ function Bookings() {
 
   return (
     <div className={classes.BookingsList}>
-      {bookingsData &&
-        bookingsData.bookings.map((booking) => {
-          return (
-            <BookingItem
-              bookingData={booking}
-              cancelBooking={cancelBookingHandler}
-            />
-          );
-        })}
+      {bookingsData && bookingsData.bookings && bookingsData.bookings.length > 0
+        ? bookingsData.bookings.map((booking) => {
+            return (
+              <BookingItem
+                bookingData={booking}
+                cancelBooking={cancelBookingHandler}
+              />
+            );
+          })
+        : "No Bookings"}
     </div>
   );
 }
